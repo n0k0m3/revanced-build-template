@@ -16,14 +16,9 @@ By default this will build ReVanced with ALL available patches. You can modify t
      - Choose correct version according to your device architecture
      - Rename to `com.google.android.apps.youtube.music.apk`
 3. Publish a new release under tag `base` and upload the APKs to the release. ([Step 1](images/release_1.png), [Step 2](images/release_2.png))
-4. (Optional, Highly Recommended) Create a new keystore for signing the APKs: `keytool -genkey -keystore <keystore_name_here>.keystore -alias <key_alias> -keyalg RSA -keysize 2048 -validity 10000`
-   - Convert keystore to `base64`: `openssl base64 -A -in ./<keystore_name_here>.keystore -out ./temp.txt`
-   - Copy content of the `temp.txt` file to your repo's GitHub Actions Secrets `SIGNING_KEY`, keystore password to `KEY_STORE_PASSWORD`. ([Example](images/keystore_secrets.png))
 
 ## How to build
-1. Go to Actions -> All workflows ([Example](images/workflow_run.png)):
-   1. Choose `ReVanced Build` if you already setup the keystore as above
-   2. Choose `ReVanced Build Autosign` if you haven't setup the keystore
+1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))
 2. Run the workflow
 3. Download the APKs from the draft releases ([Example](images/build_release.png))
 

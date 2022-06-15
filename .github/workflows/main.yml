@@ -26,14 +26,7 @@ jobs:
 
       - name: Build APKs
         run: ./build_revanced.sh
-        
-      - name: Zipalign and Sign Android release
-        run: |
-          ./zipalign_sign.sh
-        env:
-          SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY }}
-          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-      
+              
       - name: Set current date as env variable
         run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       

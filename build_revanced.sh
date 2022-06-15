@@ -69,10 +69,10 @@ available_patches=$(java -jar revanced-cli.jar -b revanced-patches.jar -a a -o b
 if [ -f "com.google.android.youtube.apk" ]
 then
     echo "Building Root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --install \
                                -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --install \
                                $available_patches \
                                -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
@@ -85,10 +85,10 @@ echo "************************************"
 if [ -f "com.google.android.apps.youtube.music.apk" ]
 then
     echo "Building Root APK"
-    java -jar revanced-cli.jar -b revanced-patches.jar \
+    java -jar revanced-cli.jar -b revanced-patches.jar --install \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
-    java -jar revanced-cli.jar -b revanced-patches.jar \
+    java -jar revanced-cli.jar -b revanced-patches.jar --install \
                                $available_patches \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else

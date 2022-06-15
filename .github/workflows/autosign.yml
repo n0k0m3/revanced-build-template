@@ -1,4 +1,4 @@
-name: ReVanced Build
+name: ReVanced Build Autosign
 
 on:
   workflow_dispatch:
@@ -18,14 +18,20 @@ jobs:
 
       - name: Build APKs
         run: ./build_revanced.sh
+
+      - name: Create generic keystore for signing
+        run: |
+          keytool -genkey -v -keystore ./build/generic.keystore -alias generic -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown"
+          openssl base64 -A -in ./build/generic.keystore -out ./build/generic.keystore.base64
+          echo "generic_keystore::$(cat ./build/generic.keystore.base64)" >> $GITHUB_ENV
         
       - name: Sign Android release
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: build/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias:  ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          signingKeyBase64: ${{ env.generic_keystore }}
+          alias: "generic"
+          keyStorePassword: "123456"
       
       - name: Set current date as env variable
         run: echo "date_now::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
@@ -35,7 +41,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           draft: true
-          title: "Release ${{ env.date_now }}"
+          title: "Release Autosign ${{ env.date_now }}"
           files: |
             build/*.apk
             vanced-microG.apk

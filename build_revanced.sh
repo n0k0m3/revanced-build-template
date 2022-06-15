@@ -24,7 +24,7 @@ YTM_VERSION="5.03.50"
 YT_VERSION="17.22.36"
 VMG_VERSION="0.2.24.220220"
 
-APKEEP_URL=$(get_artifact_download_url "EFForg/apkeep" "apkeep-x86_64-unknown-linux-gnu")
+APKEEP_URL=$(get_artifact_download_url "EFForg/apkeep" "apkeep-x86_64-unknown-linux-gnu"); APKEEP_URL=${APKEEP_URL:1:-1}
 curl $APKEEP_URL -Lo apkeep
 chmod +x apkeep
 # ./apkeep -a com.google.android.youtube@17.22.36 com.google.android.youtube
@@ -43,22 +43,35 @@ mv com.mgoogle.android.gms@$VMG_VERSION.apk vanced-microG.apk
 #     echo "Cannot find APK"
 # fi
 
+echo "************************************"
+echo "Building YouTube APK"
+echo "************************************"
+mkdir -p build
 if [ -f "com.google.android.youtube.apk" ]
 then
-    echo "Building YouTube Root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar -a com.google.android.youtube.apk -o revanced-root.apk
-    echo "Building YouTube Non-root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar -i codecs-unlock -i exclusive-audio-playback -i tasteBuilder-remover -i upgrade-button-remover -i background-play -i general-ads -i video-ads -i seekbar-tapping -i amoled -i disable-create-button -i minimized-playback -i old-quality-layout -i shorts-button -i microg-support -a com.google.android.youtube.apk -o revanced-nonroot.apk
+    echo "Building Root APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+                               -a com.google.android.youtube.apk -o build/revanced-root.apk
+    echo "Building Non-root APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+                               -i codecs-unlock -i exclusive-audio-playback -i tasteBuilder-remover -i upgrade-button-remover -i background-play -i general-ads -i video-ads -i seekbar-tapping -i amoled -i disable-create-button -i minimized-playback -i old-quality-layout -i shorts-button -i microg-support \
+                               -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
-
+echo ""
+echo "************************************"
+echo "Building YouTube Music APK"
+echo "************************************"
 if [ -f "com.google.android.apps.youtube.music.apk" ]
 then
-    echo "Building YouTube Music Root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar -a com.google.android.apps.youtube.music.apk -o revanced-music-root.apk
-    echo "Building YouTube Music Non-root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar -i codecs-unlock -i exclusive-audio-playback -i tasteBuilder-remover -i upgrade-button-remover -i background-play -i general-ads -i video-ads -i seekbar-tapping -i amoled -i disable-create-button -i minimized-playback -i old-quality-layout -i shorts-button -i microg-support -a com.google.android.apps.youtube.music.apk -o revanced-music-nonroot.apk
+    echo "Building Root APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+                               -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
+    echo "Building Non-root APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+                               -i codecs-unlock -i exclusive-audio-playback -i tasteBuilder-remover -i upgrade-button-remover -i background-play -i general-ads -i video-ads -i seekbar-tapping -i amoled -i disable-create-button -i minimized-playback -i old-quality-layout -i shorts-button -i microg-support \
+                               -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi

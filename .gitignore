@@ -3,3 +3,4 @@
 apkeep
 *.dex
 revanced-cache/
+build/

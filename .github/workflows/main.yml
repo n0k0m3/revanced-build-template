@@ -16,19 +16,26 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
+      - name: Download Stored base APKs
+        uses: robinraju/release-downloader@v1.3
+        with:
+          repository: ${{ github.repository }}
+          tag: 'base'
+          fileName: "*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build APKs
         run: ./build_revanced.sh
         
-      - name: Sign Android release
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: build/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias:  ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+      - name: Zipalign and Sign Android release
+        run: |
+          ./zipalign_sign.sh
+        env:
+          SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
       
       - name: Set current date as env variable
-        run: echo "date_now::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       
       - uses: marvinpinto/action-automatic-releases@latest
         with:

@@ -1,27 +1,5 @@
 #!/bin/bash
 
-get_artifact_download_url () {
-    # Usage: get_download_url <repo_name> <artifact_name> <file_type>
-    local api_url="https://api.github.com/repos/$1/releases/latest"
-    local result=$(curl $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
-    echo ${result:1:-1}
-}
-
-if [ ! -f "revanced-cli.jar" ]; then
-    echo "Downloading revanced-cli.jar"
-    curl -L -o revanced-cli.jar $(get_artifact_download_url "revanced/revanced-cli" "revanced-cli" ".jar")
-fi
-
-if [ ! -f "revanced-integrations.apk" ]; then
-    echo "Downloading revanced-integrations.apk"
-    curl -L -o revanced-integrations.apk $(get_artifact_download_url "revanced/revanced-integrations" "app-release-unsigned" ".apk")
-fi
-
-if [ ! -f "revanced-patches.jar" ]; then
-    echo "Downloading revanced-patches.jar"
-    curl -L -o revanced-patches.jar $(get_artifact_download_url "revanced/revanced-patches" "revanced-patches" ".jar")
-fi
-
 # Latest compatible version of apks
 # YouTube Music 5.03.50
 # YouTube 17.22.36
@@ -31,11 +9,31 @@ YTM_VERSION="5.03.50"
 YT_VERSION="17.22.36"
 VMG_VERSION="0.2.24.220220"
 
-if [ ! -f "apkeep" ]; then
-    echo "Downloading apkeep"
-    curl -L -o apkeep $(get_artifact_download_url "EFForg/apkeep" "apkeep-x86_64-unknown-linux-gnu")
-    chmod +x apkeep
-fi
+# Artifacts associative array aka dictionary
+declare -A artifacts
+
+artifacts["revanced-cli.jar"]="revanced/revanced-cli revanced-cli .jar"
+artifacts["revanced-integrations.apk"]="revanced/revanced-integrations app-release-unsigned .apk"
+artifacts["revanced-patches.jar"]="revanced/revanced-patches revanced-patches .jar"
+artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
+
+get_artifact_download_url () {
+    # Usage: get_download_url <repo_name> <artifact_name> <file_type>
+    local api_url="https://api.github.com/repos/$1/releases/latest"
+    local result=$(curl $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
+    echo ${result:1:-1}
+}
+
+# Fetch all the dependencies
+for artifact in "${!artifacts[@]}"; do
+    if [ ! -f $artifact ]; then
+        echo "Downloading $artifact"
+        curl -L -o $artifact $(get_artifact_download_url ${artifacts[$artifact]})
+    fi
+done
+
+# Fetch microG
+chmod +x apkeep
 
 # ./apkeep -a com.google.android.youtube@17.22.36 com.google.android.youtube
 # ./apkeep -a com.google.android.apps.youtube.music@5.03.50 com.google.android.apps.youtube.music

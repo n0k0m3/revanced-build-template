@@ -20,6 +20,13 @@ artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 get_artifact_download_url () {
     # Usage: get_download_url <repo_name> <artifact_name> <file_type>
     local api_url="https://api.github.com/repos/$1/releases/latest"
+    # Latest version (21-06-2022) is broken for some repo.
+    # So adding last worked revision until issue is fixed.   
+    if [ "$2" = "revanced-cli" ]; then
+        api_url="https://api.github.com/repos/$1/releases/tags/v1.4.5"
+    elif [ "$2" = "revanced-patches" ]; then
+        api_url="https://api.github.com/repos/$1/releases/tags/v1.8.1"
+    fi
     local result=$(curl $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
     echo ${result:1:-1}
 }

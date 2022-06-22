@@ -60,18 +60,17 @@ echo "Building YouTube APK"
 echo "************************************"
 
 mkdir -p build
-available_patches=$(java -jar revanced-cli.jar -b revanced-patches.jar -a a -o b -l | sed -Er  's#\[available\] (.+)#-i \1 #')
-# Uncomment and modify the following line to set different patches
-# available_patches="-i codecs-unlock -i exclusive-audio-playback -i tasteBuilder-remover -i upgrade-button-remover -i background-play -i general-ads -i video-ads -i seekbar-tapping -i amoled -i premium-heading -i custom-branding -i disable-create-button -i minimized-playback -i old-quality-layout -i disable-shorts-button -i hide-cast-button -i disable-fullscreen-panels -i microg-support"
+# Obtained from: revanced-patches-1.9.1
+# available_patches="-e amoled -e minimized-playback -e disable-create-button -e premium-heading -e custom-branding -e disable-shorts-button -e disable-fullscreen-panels -e old-quality-layout -e hide-cast-button -e microg-support -e general-ads -e video-ads -e seekbar-tapping -e upgrade-button-remover -e tasteBuilder-remover -e background-play -e exclusive-audio-playback -e codecs-unlock"
 
 if [ -f "com.google.android.youtube.apk" ]
 then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --install \
+                               -e microg-support \
                                -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --install \
-                               $available_patches \
                                -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
     echo "Cannot find YouTube APK, skipping build"
@@ -84,10 +83,10 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]
 then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --install \
+                               -e microg-support \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --install \
-                               $available_patches \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"

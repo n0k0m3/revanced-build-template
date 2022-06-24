@@ -2,11 +2,11 @@
 
 # Latest compatible version of apks
 # YouTube Music 5.03.50
-# YouTube 17.23.35
+# YouTube 17.24.34
 # Vanced microG 0.2.24.220220
 
 YTM_VERSION="5.03.50"
-YT_VERSION="17.23.35"
+YT_VERSION="17.24.34"
 VMG_VERSION="0.2.24.220220"
 
 # Artifacts associative array aka dictionary
@@ -35,7 +35,7 @@ done
 # Fetch microG
 chmod +x apkeep
 
-# ./apkeep -a com.google.android.youtube@17.23.35 com.google.android.youtube
+# ./apkeep -a com.google.android.youtube@17.24.34 com.google.android.youtube
 # ./apkeep -a com.google.android.apps.youtube.music@5.03.50 com.google.android.apps.youtube.music
 
 if [ ! -f "vanced-microG.apk" ]; then

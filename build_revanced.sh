@@ -2,11 +2,11 @@
 
 # Latest compatible version of apks
 # YouTube Music 5.03.50
-# YouTube 17.24.35
+# YouTube 17.25.34
 # Vanced microG 0.2.24.220220
 
 YTM_VERSION="5.03.50"
-YT_VERSION="17.24.35"
+YT_VERSION="17.25.34"
 VMG_VERSION="0.2.24.220220"
 
 # Artifacts associative array aka dictionary
@@ -35,7 +35,7 @@ done
 # Fetch microG
 chmod +x apkeep
 
-# ./apkeep -a com.google.android.youtube@17.24.35 com.google.android.youtube
+# ./apkeep -a com.google.android.youtube@17.25.34 com.google.android.youtube
 # ./apkeep -a com.google.android.apps.youtube.music@5.03.50 com.google.android.apps.youtube.music
 
 if [ ! -f "vanced-microG.apk" ]; then
@@ -60,8 +60,32 @@ echo "Building YouTube APK"
 echo "************************************"
 
 mkdir -p build
-# Obtained from: revanced-patches-1.9.1
-# available_patches="-e amoled -e minimized-playback -e disable-create-button -e premium-heading -e custom-branding -e disable-shorts-button -e disable-fullscreen-panels -e old-quality-layout -e hide-cast-button -e microg-support -e general-ads -e video-ads -e seekbar-tapping -e upgrade-button-remover -e tasteBuilder-remover -e background-play -e exclusive-audio-playback -e codecs-unlock"
+# All patches will be included by default, you can exclude patches by appending -e patch-name to exclude said patch.
+# Example: -e microg-support
+
+# All available patches obtained from: revanced-patches-2.4.0
+
+# seekbar-tapping: Enable tapping on the seekbar of the YouTube player. 
+# general-ads: Patch to remove general ads in bytecode. 
+# video-ads: Patch to remove ads in the YouTube video player. 
+# custom-branding: Change the branding of YouTube. 
+# premium-heading: Show the premium branding on the the YouTube home screen. 
+# minimized-playback: Enable minimized and background playback. 
+# disable-fullscreen-panels: Disable comments panel in fullscreen view. 
+# old-quality-layout: Enable the original quality flyout menu. 
+# hide-autoplay-button: Disable the autoplay button. 
+# disable-create-button: Disable the create button. 
+# amoled: Enables pure black theme. 
+# hide-shorts-button: Hide the shorts button. 
+# hide-cast-button: Patch to hide the cast button. 
+# hide-watermark: Hide Watermark on the page. 
+# microg-support: Patch to allow YouTube ReVanced to run without root and under a different package name. 
+# custom-playback-speed: Allows to change the default playback speed options. 
+# background-play: Enable playing music in the background. 
+# exclusive-audio-playback: Add the option to play music without video. 
+# codecs-unlock: Enables more audio codecs. Usually results in better audio quality but may depend on song and device. 
+# upgrade-button-remover: Remove the upgrade tab from the pivot bar in YouTube music. 
+# tasteBuilder-remover: Removes the "Tell us which artists you like" card from the Home screen. The same functionality can be triggered from the settings anyway. 
 
 if [ -f "com.google.android.youtube.apk" ]
 then

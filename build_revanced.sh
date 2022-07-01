@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## parameter declarations
+
 # Latest compatible version of apks
 # YouTube Music 5.03.50
 # YouTube 17.24.34
@@ -17,12 +19,21 @@ artifacts["revanced-integrations.apk"]="revanced/revanced-integrations app-relea
 artifacts["revanced-patches.jar"]="revanced/revanced-patches revanced-patches .jar"
 artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 
+## Functions
+
 get_artifact_download_url () {
     # Usage: get_download_url <repo_name> <artifact_name> <file_type>
     local api_url="https://api.github.com/repos/$1/releases/latest"
     local result=$(curl $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
     echo ${result:1:-1}
 }
+
+## Main
+
+if [[ "$1" == "clean" ]] ; then
+    rm -f revanced-cli.jar revanced-integrations.apk revanced-patches.jar
+    exit
+fi
 
 # Fetch all the dependencies
 for artifact in "${!artifacts[@]}"; do

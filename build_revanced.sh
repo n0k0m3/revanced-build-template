@@ -66,6 +66,17 @@ fi
 #     echo "Cannot find APK"
 # fi
 
+## Check Java is not too old
+
+jversion=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+echo Java version "$jversion"
+if [[ "$jversion" > "17" ]]; then
+    echo New enough
+else
+    echo Java version is too old
+    exit 1
+fi
+
 echo "************************************"
 echo "Building YouTube APK"
 echo "************************************"

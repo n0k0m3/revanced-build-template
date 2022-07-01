@@ -19,33 +19,39 @@ artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 
 ## Functions
 
-get_artifact_download_url () {
+get_artifact_download_url() {
     # Usage: get_download_url <repo_name> <artifact_name> <file_type>
-    local api_url="https://api.github.com/repos/$1/releases/latest"
-    local result=$(curl $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
-    echo ${result:1:-1}
+    local api_url result
+    api_url="https://api.github.com/repos/$1/releases/latest"
+    result=$(curl "$api_url" | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
+    echo "${result:1:-1}"
 }
 
 ## Main
 
-if [[ "$1" == "clean" ]] ; then
+# cleanup to fetch new revanced on next run
+if [[ "$1" == "clean" ]]; then
     rm -f revanced-cli.jar revanced-integrations.apk revanced-patches.jar
     exit
 fi
 
 # Fetch all the dependencies
 for artifact in "${!artifacts[@]}"; do
-    if [ ! -f $artifact ]; then
+    if [ ! -f "$artifact" ]; then
         echo "Downloading $artifact"
-        curl -L -o $artifact $(get_artifact_download_url ${artifacts[$artifact]})
+        curl -L -o "$artifact" $(get_artifact_download_url ${artifacts[$artifact]})
     fi
 done
 
 # Fetch microG
 chmod +x apkeep
 
-# ./apkeep -a com.google.android.youtube@${YT_VERSION} com.google.android.youtube
-# ./apkeep -a com.google.android.apps.youtube.music@${YTM_VERSION} com.google.android.apps.youtube.music
+# get latest YouTube packages if the user asks
+if [[ "$1" == "get_yt" ]]; then
+    echo "Downloading youtube"
+    ./apkeep -a com.google.android.youtube@${YT_VERSION} com.google.android.youtube
+    ./apkeep -a com.google.android.apps.youtube.music@${YTM_VERSION} com.google.android.apps.youtube.music
+fi
 
 if [ ! -f "vanced-microG.apk" ]; then
     echo "Downloading Vanced microG"
@@ -74,37 +80,36 @@ mkdir -p build
 
 # All available patches obtained from: revanced-patches-2.4.0
 
-# seekbar-tapping: Enable tapping on the seekbar of the YouTube player. 
-# general-ads: Patch to remove general ads in bytecode. 
-# video-ads: Patch to remove ads in the YouTube video player. 
-# custom-branding: Change the branding of YouTube. 
-# premium-heading: Show the premium branding on the the YouTube home screen. 
-# minimized-playback: Enable minimized and background playback. 
-# disable-fullscreen-panels: Disable comments panel in fullscreen view. 
-# old-quality-layout: Enable the original quality flyout menu. 
-# hide-autoplay-button: Disable the autoplay button. 
-# disable-create-button: Disable the create button. 
-# amoled: Enables pure black theme. 
-# hide-shorts-button: Hide the shorts button. 
-# hide-cast-button: Patch to hide the cast button. 
-# hide-watermark: Hide Watermark on the page. 
-# microg-support: Patch to allow YouTube ReVanced to run without root and under a different package name. 
-# custom-playback-speed: Allows to change the default playback speed options. 
-# background-play: Enable playing music in the background. 
-# exclusive-audio-playback: Add the option to play music without video. 
-# codecs-unlock: Enables more audio codecs. Usually results in better audio quality but may depend on song and device. 
-# upgrade-button-remover: Remove the upgrade tab from the pivot bar in YouTube music. 
-# tasteBuilder-remover: Removes the "Tell us which artists you like" card from the Home screen. The same functionality can be triggered from the settings anyway. 
+# seekbar-tapping: Enable tapping on the seekbar of the YouTube player.
+# general-ads: Patch to remove general ads in bytecode.
+# video-ads: Patch to remove ads in the YouTube video player.
+# custom-branding: Change the branding of YouTube.
+# premium-heading: Show the premium branding on the the YouTube home screen.
+# minimized-playback: Enable minimized and background playback.
+# disable-fullscreen-panels: Disable comments panel in fullscreen view.
+# old-quality-layout: Enable the original quality flyout menu.
+# hide-autoplay-button: Disable the autoplay button.
+# disable-create-button: Disable the create button.
+# amoled: Enables pure black theme.
+# hide-shorts-button: Hide the shorts button.
+# hide-cast-button: Patch to hide the cast button.
+# hide-watermark: Hide Watermark on the page.
+# microg-support: Patch to allow YouTube ReVanced to run without root and under a different package name.
+# custom-playback-speed: Allows to change the default playback speed options.
+# background-play: Enable playing music in the background.
+# exclusive-audio-playback: Add the option to play music without video.
+# codecs-unlock: Enables more audio codecs. Usually results in better audio quality but may depend on song and device.
+# upgrade-button-remover: Remove the upgrade tab from the pivot bar in YouTube music.
+# tasteBuilder-remover: Removes the "Tell us which artists you like" card from the Home screen. The same functionality can be triggered from the settings anyway.
 
-if [ -f "com.google.android.youtube.apk" ]
-then
+if [ -f "com.google.android.youtube.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
-                               -e microg-support \
-                               -a com.google.android.youtube.apk -o build/revanced-root.apk
+        -e microg-support \
+        -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
-    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar  \
-                               -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+        -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
@@ -112,15 +117,14 @@ echo ""
 echo "************************************"
 echo "Building YouTube Music APK"
 echo "************************************"
-if [ -f "com.google.android.apps.youtube.music.apk" ]
-then
+if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
-                               -e microg-support \
-                               -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
+        -e microg-support \
+        -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar \
-                               -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
+        -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi

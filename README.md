@@ -21,5 +21,3 @@ By default this will build ReVanced with ALL available patches. You can modify t
 1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))
 2. Run the workflow
 3. Download the APKs from the draft releases ([Example](images/build_release.png))
-
-

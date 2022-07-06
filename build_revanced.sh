@@ -72,11 +72,12 @@ mkdir -p build
 # All patches will be included by default, you can exclude patches by appending -e patch-name to exclude said patch.
 # Example: -e microg-support
 
-# All available patches obtained from: revanced-patches-2.4.0
+# All available patches obtained from: revanced-patches-2.9.2
 
 # seekbar-tapping: Enable tapping on the seekbar of the YouTube player. 
 # general-ads: Patch to remove general ads in bytecode. 
 # video-ads: Patch to remove ads in the YouTube video player. 
+# hide-infocard-suggestions: Hides infocards in videos. 
 # custom-branding: Change the branding of YouTube. 
 # premium-heading: Show the premium branding on the the YouTube home screen. 
 # minimized-playback: Enable minimized and background playback. 
@@ -87,14 +88,16 @@ mkdir -p build
 # amoled: Enables pure black theme. 
 # hide-shorts-button: Hide the shorts button. 
 # hide-cast-button: Patch to hide the cast button. 
-# hide-watermark: Hide Watermark on the page. 
+# hide-watermark: Hide the creator's watermark on video's. 
 # microg-support: Patch to allow YouTube ReVanced to run without root and under a different package name. 
 # custom-playback-speed: Allows to change the default playback speed options. 
+# hdr-max-brightness: Set brightness to max for HDR videos in fullscreen mode. 
+# enable-debugging: Enable app debugging by patching the manifest file 
 # background-play: Enable playing music in the background. 
 # exclusive-audio-playback: Add the option to play music without video. 
 # codecs-unlock: Enables more audio codecs. Usually results in better audio quality but may depend on song and device. 
 # upgrade-button-remover: Remove the upgrade tab from the pivot bar in YouTube music. 
-# tasteBuilder-remover: Removes the "Tell us which artists you like" card from the Home screen. The same functionality can be triggered from the settings anyway. 
+# tasteBuilder-remover: Removes the "Tell us which artists you like" card from the Home screen. The same functionality can be triggered from the settings anyway.
 
 if [ -f "com.google.android.youtube.apk" ]
 then

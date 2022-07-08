@@ -9,8 +9,14 @@ YTM_VERSION="5.03.50"
 YT_VERSION="17.25.34"
 VMG_VERSION="0.2.24.220220"
 
+# File containing all patches
+patches=./patches.txt
+
 # Artifacts associative array aka dictionary
 declare -A artifacts
+
+# Array for storing excluded patches
+declare -a excluded_patches
 
 artifacts["revanced-cli.jar"]="revanced/revanced-cli revanced-cli .jar"
 artifacts["revanced-integrations.apk"]="revanced/revanced-integrations app-release-unsigned .apk"
@@ -69,44 +75,27 @@ echo "Building YouTube APK"
 echo "************************************"
 
 mkdir -p build
-# All patches will be included by default, you can exclude patches by appending -e patch-name to exclude said patch.
-# Example: -e microg-support
 
-# All available patches obtained from: revanced-patches-2.9.2
+# All patches will be included by default, you can exclude patches by writing their name in patches.txt
 
-# seekbar-tapping: Enable tapping on the seekbar of the YouTube player. 
-# general-ads: Patch to remove general ads in bytecode. 
-# video-ads: Patch to remove ads in the YouTube video player. 
-# hide-infocard-suggestions: Hides infocards in videos. 
-# custom-branding: Change the branding of YouTube. 
-# premium-heading: Show the premium branding on the the YouTube home screen. 
-# minimized-playback: Enable minimized and background playback. 
-# disable-fullscreen-panels: Disable comments panel in fullscreen view. 
-# old-quality-layout: Enable the original quality flyout menu. 
-# hide-autoplay-button: Disable the autoplay button. 
-# disable-create-button: Disable the create button. 
-# amoled: Enables pure black theme. 
-# hide-shorts-button: Hide the shorts button. 
-# hide-cast-button: Patch to hide the cast button. 
-# hide-watermark: Hide the creator's watermark on video's. 
-# microg-support: Patch to allow YouTube ReVanced to run without root and under a different package name. 
-# custom-playback-speed: Allows to change the default playback speed options. 
-# hdr-max-brightness: Set brightness to max for HDR videos in fullscreen mode. 
-# enable-debugging: Enable app debugging by patching the manifest file 
-# background-play: Enable playing music in the background. 
-# exclusive-audio-playback: Add the option to play music without video. 
-# codecs-unlock: Enables more audio codecs. Usually results in better audio quality but may depend on song and device. 
-# upgrade-button-remover: Remove the upgrade tab from the pivot bar in YouTube music. 
-# tasteBuilder-remover: Removes the "Tell us which artists you like" card from the Home screen. The same functionality can be triggered from the settings anyway.
+# Check if there is anything in patches which does NOT start with a hash
+ if grep -q '^[^#]' $patches; then
+    # If yes, output from grep command below is fed into read which assign it to patch & ultimately store it in our array of excluded_patches
+    # Note: 'read' reads until it hits a newline, grep preserves newline. Thus, we get all patches in one huge chunk & read reads them one by one until EOF
+    while read -r patch; do 
+        excluded_patches+=("-e $patch")
+    done < <(grep '^[^#]' $patches)
+ fi
 
 if [ -f "com.google.android.youtube.apk" ]
 then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
-                               -e microg-support \
+                               -e microg-support ${excluded_patches[@]} \
                                -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar  \
+                               ${excluded_patches[@]} \
                                -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
     echo "Cannot find YouTube APK, skipping build"
@@ -119,10 +108,11 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]
 then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
-                               -e microg-support \
+                               -e microg-support ${excluded_patches[@]} \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar \
+                               ${excluded_patches[@]} \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"

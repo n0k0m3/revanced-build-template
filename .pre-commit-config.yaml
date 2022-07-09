@@ -22,6 +22,7 @@ repos:
         args: [ "-e", "SC2068" ]
       - id: shfmt
         exclude: ".bats$"
+        args: ["-i", "4"]
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.7
     hooks:

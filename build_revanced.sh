@@ -2,11 +2,11 @@
 
 # Latest compatible version of apks
 # YouTube Music 5.03.50
-# YouTube 17.25.34
+# YouTube 17.26.35
 # Vanced microG 0.2.24.220220
 
 YTM_VERSION="5.03.50"
-YT_VERSION="17.25.34"
+YT_VERSION="17.26.35"
 VMG_VERSION="0.2.24.220220"
 
 # File containing all patches

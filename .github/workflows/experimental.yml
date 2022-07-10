@@ -1,4 +1,4 @@
-name: ReVanced Build
+name: ReVanced Experimental Build
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Java JDK
         uses: actions/setup-java@v3.3.0
         with:
@@ -24,12 +24,12 @@ jobs:
           fileName: "*"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build APKs
-        run: ./build_revanced.sh
-              
+      - name: Build APKs, force patches on untested YouTube versions
+        run: ./build_revanced.sh experimental
+
       - name: Set current date as env variable
         run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-      
+
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"

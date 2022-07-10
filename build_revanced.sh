@@ -39,6 +39,10 @@ if [[ "$1" == "clean" ]] ; then
     exit
 fi
 
+if [[ "$1" == "experimental" ]] ; then
+    EXPERIMENTAL="--experimental"
+fi
+
 # Fetch all the dependencies
 for artifact in "${!artifacts[@]}"; do
     if [ ! -f $artifact ]; then
@@ -92,10 +96,12 @@ then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
                                -e microg-support ${excluded_patches[@]} \
+                               $EXPERIMENTAL \
                                -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar  \
                                ${excluded_patches[@]} \
+                               $EXPERIMENTAL \
                                -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
     echo "Cannot find YouTube APK, skipping build"
@@ -109,10 +115,12 @@ then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
                                -e microg-support ${excluded_patches[@]} \
+                               $EXPERIMENTAL \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar \
                                ${excluded_patches[@]} \
+                               $EXPERIMENTAL \
                                -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"

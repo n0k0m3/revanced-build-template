@@ -1,0 +1,41 @@
+name: ReVanced Experimental Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.3.0
+        with:
+          java-version: "17"
+          distribution: "adopt"
+
+      - name: Download Stored base APKs
+        uses: robinraju/release-downloader@v1.3
+        with:
+          repository: ${{ github.repository }}
+          tag: 'base'
+          fileName: "*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build APKs, force patches on untested YouTube versions
+        run: ./build_revanced.sh experimental
+
+      - name: Set current date as env variable
+        run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          draft: true
+          title: "Release ${{ env.date_now }}"
+          files: |
+            build/*.apk
+            vanced-microG.apk

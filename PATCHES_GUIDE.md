@@ -40,13 +40,16 @@ Synopsis: `NAME: Description`
 
 **YT ReVanced Specific Patches**
 ```
+fenster-swipe-controls: Adds volume and brightness swipe controls.
 seekbar-tapping: Enable tapping on the seekbar of the YouTube player.
 general-ads: Patch to remove general ads in bytecode.
 video-ads: Patch to remove ads in the YouTube video player.
 hide-infocard-suggestions: Hides infocards in videos.
+autorepeat-by-default: Enables auto repeating of videos by default.
 custom-branding: Change the branding of YouTube.
 premium-heading: Show the premium branding on the the YouTube home screen.
 minimized-playback: Enable minimized and background playback.
+enable-wide-searchbar: Replaces the search icon with a wide search bar. This will hide the YouTube logo when active.
 disable-fullscreen-panels: Disable comments panel in fullscreen view.
 old-quality-layout: Enable the original quality flyout menu.
 hide-autoplay-button: Disable the autoplay button.

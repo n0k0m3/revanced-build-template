@@ -2,11 +2,11 @@
 
 # Latest compatible version of apks
 # YouTube Music 5.03.50
-# YouTube 17.25.34
+# YouTube 17.26.35
 # Vanced microG 0.2.24.220220
 
 YTM_VERSION="5.03.50"
-YT_VERSION="17.25.34"
+YT_VERSION="17.26.35"
 VMG_VERSION="0.2.24.220220"
 
 # File containing all patches
@@ -40,6 +40,10 @@ get_artifact_download_url() {
 if [[ "$1" == "clean" ]]; then
     rm -f revanced-cli.jar revanced-integrations.apk revanced-patches.jar
     exit
+fi
+
+if [[ "$1" == "experimental" ]]; then
+    EXPERIMENTAL="--experimental"
 fi
 
 # Fetch all the dependencies
@@ -99,10 +103,12 @@ if [ -f "com.google.android.youtube.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
         -e microg-support ${excluded_patches[@]} \
+        $EXPERIMENTAL \
         -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${excluded_patches[@]} \
+        $EXPERIMENTAL \
         -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
     echo "Cannot find YouTube APK, skipping build"
@@ -115,10 +121,12 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
         -e microg-support ${excluded_patches[@]} \
+        $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar \
         ${excluded_patches[@]} \
+        $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"

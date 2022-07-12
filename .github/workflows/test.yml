@@ -21,29 +21,31 @@ jobs:
           wget -O com.google.android.youtube.apk https://dw.uptodown.com/dwn/i2WjiBe2HJk2Zbb7c5EZmFUa2pUq5hrGCtfXXqT-hWE_6akJzTzhMEx1TVEP0_Ya8y9C7S2-7LUaSPa-MKtl5-luz2b3Kuq1hyp-aU99WZTHXSifm4TMnicPQYIi06C9/I2LPDBVWiax8oSORUARIue69fpPVQ9fyvuM_0uqiKgXiKrpaAPZihKTvaREFep1En2UPJaZM9G-z_zFr5nY43QUn3n60qq0n4Yb3oXuMeEWFvdFYRQ4NprbVvVM4pUu2/qgbB-ZAe1hC8gPDXgN77do_0ArmLnzsLfv3Iu5qoT2luAjy2sj6CYJowuPYAf_HHb0_TV5FWMyuVhMEaz-pkNw==/
           wget -O com.google.android.apps.youtube.music.apk https://dw.uptodown.com/dwn/wwZSlh8SP5sAZNaZKXXLVfo-NGpjVLjUrMtvhTYAwItTgneF39AVpU4_FsikgGU7f4C6HSJvuxcgK2E7ZjyMAlm0XeFJSWt5y2W6stUeRS6xJiSIVBs4VB6DJKOZ3wFw/Xm1IHWNcCn3LBIz_RQKkLbxGGbsvR8sM_dbMU2vHfHSO13BPiOIJIzL0qfbvWj9yZKhGW-I_HOH4ALcXeoEtvDwimVyIZEinMiwaVLoqXspDijO1xKRLiMeeiFDWVjzr/NeaELRPIOVJjD3XakTP8frpenNJaSunA8wvQoW98eGlr2oT2MNRBelLUn11Erhc0cGU6AEno4fpneckj09K7ww==/
 
-      - name: Test build function
-        run: |
-          testbuild() {
-            for filename in build/revanced-root.apk build/revanced-nonroot.apk build/revanced-music-root.apk build/revanced-music-nonroot.apk; do
-              if [ -e "$filename" ]; then
-                printf '"%s" exists\n' "$filename"
-              else
-                echo "APK build failed"
-                exit 1
-              fi
-            done
-            rm -rf build
-          }
-
       - name: Build APKs
         run: |
           ./build_revanced.sh
-          testbuild
+          for filename in build/revanced-root.apk build/revanced-nonroot.apk build/revanced-music-root.apk build/revanced-music-nonroot.apk; do
+            if [ -e "$filename" ]; then
+              printf '"%s" exists\n' "$filename"
+            else
+              echo "APK build failed"
+              exit 1
+            fi
+          done
+          rm -rf build
 
       - name: Build APKs, force patches on untested YouTube versions
         run: |
           ./build_revanced.sh experimental
-          testbuild
+          for filename in build/revanced-root.apk build/revanced-nonroot.apk build/revanced-music-root.apk build/revanced-music-nonroot.apk; do
+            if [ -e "$filename" ]; then
+              printf '"%s" exists\n' "$filename"
+            else
+              echo "APK build failed"
+              exit 1
+            fi
+          done
+          rm -rf build
 
       - name: Set current date as env variable
         run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV

@@ -46,16 +46,3 @@ jobs:
             fi
           done
           rm -rf build
-
-      - name: Set current date as env variable
-        run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          draft: true
-          title: "Release ${{ env.date_now }}"
-          files: |
-            build/*.apk
-            vanced-microG.apk

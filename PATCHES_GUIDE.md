@@ -40,7 +40,7 @@ Synopsis: `NAME: Description`
 
 **YT ReVanced Specific Patches**
 ```
-fenster-swipe-controls: Adds volume and brightness swipe controls.
+swipe-controls: Adds volume and brightness swipe controls.
 seekbar-tapping: Enable tapping on the seekbar of the YouTube player.
 general-ads: Patch to remove general ads in bytecode.
 video-ads: Patch to remove ads in the YouTube video player.

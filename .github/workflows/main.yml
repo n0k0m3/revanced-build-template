@@ -17,7 +17,7 @@ jobs:
           distribution: "adopt"
 
       - name: Download APKs from UptoDown
-        run: python download_uptodown.py
+        run: ./download_uptodown.sh
 
       - name: Build APKs
         run: ./build_revanced.sh

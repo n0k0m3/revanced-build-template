@@ -17,7 +17,7 @@ jobs:
           distribution: "adopt"
 
       - name: Download APKs from UptoDown
-        run: python download_uptodown.py
+        run: ./download_uptodown.sh
 
       - name: Build APKs, force patches on untested YouTube versions
         run: ./build_revanced.sh experimental

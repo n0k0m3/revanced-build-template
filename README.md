@@ -3,7 +3,7 @@ This repo template will allow you to build ReVanced using Github Actions. This w
 By default this will build ReVanced with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
 
 ## Notes
-- Current implementation cannot download the latest compatible versions of Youtube and Youtube Music, as APKPure either doesn't have bundled APK, or doesn't have older versions of the apps that are compatible with ReVanced.
+~~-Current implementation cannot download the latest compatible versions of Youtube and Youtube Music, as APKPure either doesn't have bundled APK, or doesn't have older versions of the apps that are compatible with ReVanced.~~
 - While this template will build Revanced Music Non-root, it won't work as current patches doesn't include the Music Non-root (microG) patch (track [this PR](https://github.com/revanced/revanced-patches/pull/22) when it will get merged to `main` and released). Don't open an issue here. Just rebuild ReVanced when music microG patch is available on [ReVanced Patches](https://github.com/revanced/revanced-patches/releases).
 - Under NO CIRCUMSTANCES any APKs will be uploaded to this repository to avoid DMCA.
 

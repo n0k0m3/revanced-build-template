@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Latest compatible version of apks
-# YouTube Music 5.03.50
-# YouTube 17.26.35
-# Vanced microG 0.2.24.220220
-
-YTM_VERSION="5.03.50"
-YT_VERSION="17.26.35"
-VMG_VERSION="0.2.24.220220"
-
 # File containing all patches
 patches=./patches.txt
 
@@ -58,29 +49,15 @@ done
 # Fetch microG
 chmod +x apkeep
 
-# get latest YouTube packages if the user asks
-if [[ "$1" == "get_yt" ]]; then
-    echo "Downloading youtube"
-    ./apkeep -a com.google.android.youtube@${YT_VERSION} com.google.android.youtube
-    ./apkeep -a com.google.android.apps.youtube.music@${YTM_VERSION} com.google.android.apps.youtube.music
-fi
-
 if [ ! -f "vanced-microG.apk" ]; then
+
+    # Vanced microG 0.2.24.220220
+    VMG_VERSION="0.2.24.220220"
+
     echo "Downloading Vanced microG"
     ./apkeep -a com.mgoogle.android.gms@$VMG_VERSION .
     mv com.mgoogle.android.gms@$VMG_VERSION.apk vanced-microG.apk
 fi
-
-# if [ -f "com.google.android.youtube.xapk" ]
-# then
-#     unzip com.google.android.youtube.xapk -d youtube
-#     yt_apk_path="youtube/com.google.android.youtube.apk"
-# elif [ -f "com.google.android.youtube.apk" ]
-# then
-#     yt_apk_path="com.google.android.youtube.apk"
-# else
-#     echo "Cannot find APK"
-# fi
 
 echo "************************************"
 echo "Building YouTube APK"

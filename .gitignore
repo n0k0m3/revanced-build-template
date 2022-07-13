@@ -6,3 +6,4 @@ revanced-cache/
 build/
 .editorconfig
 patches.txt
+.vscode/

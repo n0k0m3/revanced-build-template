@@ -19,22 +19,9 @@ jobs:
       - name: Download APKs from UptoDown
         run: python download_uptodown.py
 
-      - name: Build APKs
+      - name: Test Build APKs
         run: |
           ./build_revanced.sh
-          for filename in build/revanced-root.apk build/revanced-nonroot.apk build/revanced-music-root.apk build/revanced-music-nonroot.apk; do
-            if [ -e "$filename" ]; then
-              printf '"%s" exists\n' "$filename"
-            else
-              echo "APK build failed"
-              exit 1
-            fi
-          done
-          rm -rf build
-
-      - name: Build APKs, force patches on untested YouTube versions
-        run: |
-          ./build_revanced.sh experimental
           for filename in build/revanced-root.apk build/revanced-nonroot.apk build/revanced-music-root.apk build/revanced-music-nonroot.apk; do
             if [ -e "$filename" ]; then
               printf '"%s" exists\n' "$filename"

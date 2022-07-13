@@ -16,13 +16,8 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
-      - name: Download Stored base APKs
-        uses: robinraju/release-downloader@v1.3
-        with:
-          repository: ${{ github.repository }}
-          tag: 'base'
-          fileName: "*"
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download APKs from UptoDown
+        run: python download_uptodown.py
 
       - name: Build APKs
         run: ./build_revanced.sh

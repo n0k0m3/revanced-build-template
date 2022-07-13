@@ -19,7 +19,7 @@ artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 get_artifact_download_url () {
     # Usage: get_download_url <repo_name> <artifact_name> <file_type>
     local api_url="https://api.github.com/repos/$1/releases/latest"
-    local result=$(curl $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
+    local result=$(curl -s $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
     echo ${result:1:-1}
 }
 
@@ -38,7 +38,7 @@ fi
 for artifact in "${!artifacts[@]}"; do
     if [ ! -f $artifact ]; then
         echo "Downloading $artifact"
-        curl -L -o $artifact $(get_artifact_download_url ${artifacts[$artifact]})
+        curl -sLo $artifact $(get_artifact_download_url ${artifacts[$artifact]})
     fi
 done
 

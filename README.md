@@ -19,6 +19,7 @@ By default this will build ReVanced with ALL available patches. Follow [this gui
      - Rename to `com.google.android.apps.youtube.music.apk`
 3. Publish a new release under tag `base` and upload the APKs to the release. ([Step 1](images/release_1.png), [Step 2](images/release_2.png))
 </s>
+
 ## How to build
 1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))
 2. Run the `build` workflow (try to use `experimental_build` if the logs show not all patches applied correctly while revanced is not yet released)

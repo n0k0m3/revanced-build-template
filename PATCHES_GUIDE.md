@@ -50,7 +50,7 @@ custom-branding: Change the branding of YouTube.
 force-vp9-codec: Forces the VP9 codec for videos.
 sponsorblock: Integrate SponsorBlock.
 return-youtube-dislike: Shows the dislike count of videos using the Return YouTube Dislike API.
-premium-heading: Shows premium branding on the the YouTube home screen.
+premium-heading: Shows premium branding on the YouTube home screen.
 minimized-playback: Enable minimized and background playback.
 enable-wide-searchbar: Replaces the search icon with a wide search bar. This will hide the YouTube logo when active.
 disable-fullscreen-panels: Disable comments panel in fullscreen view.

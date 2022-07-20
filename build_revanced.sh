@@ -36,6 +36,14 @@ get_artifact_download_url() {
     echo "${result:1:-1}"
 }
 
+# Function for populating patches array, using a function here reduces redundancy & satisfies DRY principals
+populate_patches() {
+    # Note: <<< defines a 'here-string'. Meaning, it allows reading from variables just like from a file
+    while read -r patch; do
+        patches+=("$1 $patch")
+    done <<< "$2"
+}
+
 ## Main
 
 # cleanup to fetch new revanced on next run
@@ -61,7 +69,6 @@ done
 chmod +x apkeep
 
 if [ ! -f "vanced-microG.apk" ]; then
-
     # Vanced microG 0.2.24.220220
     VMG_VERSION="0.2.24.220220"
 
@@ -70,23 +77,15 @@ if [ ! -f "vanced-microG.apk" ]; then
     mv com.mgoogle.android.gms@$VMG_VERSION.apk vanced-microG.apk
 fi
 
+# If the variables are NOT empty, call populate_patches with proper arguments
+[[ ! -z "$excluded_patches" ]] && populate_patches "-e" "$excluded_patches"
+[[ ! -z "$included_patches" ]] && populate_patches "-i" "$included_patches"
+
 echo "************************************"
 echo "Building YouTube APK"
 echo "************************************"
 
 mkdir -p build
-
-# Function for populating patches array, using a function here reduces redundancy & satisfies DRY principals
-populate_patches() {
-    # Note: <<< defines a 'here-string'. Meaning, it allows reading from variables just like from a file
-    while read -r patch; do
-        patches+=("$1 $patch")
-    done <<< "$2"
-}
-
-# If the variables are NOT empty, call populate_patches with proper arguments
-[[ ! -z "$excluded_patches" ]] && populate_patches "-e" "$excluded_patches"
-[[ ! -z "$included_patches" ]] && populate_patches "-i" "$included_patches"
 
 if [ -f "com.google.android.youtube.apk" ]; then
     echo "Building Root APK"

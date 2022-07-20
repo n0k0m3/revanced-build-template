@@ -1,6 +1,5 @@
 # Revanced Build
 This repo template will allow you to build ReVanced using Github Actions. This will helps people who don't want to setup build environments on their machines.
-By default this will build ReVanced with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
 
 ## Notes
 - The script will download the **latest available version** of Youtube on UpToDown, **NOT** latest official version on Google Play.
@@ -10,6 +9,11 @@ By default this will build ReVanced with ALL available patches. Follow [this gui
 ## How to setup
 1. Fork or create a new repository using this repository as a template ([Guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)). DO NOT FORK if you need to set the new repo to private.
 2. That's it! You can now build ReVanced using Github Actions.
+
+## Customize your build
+If you wish to continue with the default settings, you may skip this step.
+
+By default this will build ReVanced with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
 
 ## How to build
 1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))

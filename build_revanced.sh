@@ -1,13 +1,24 @@
 #!/bin/bash
 
 # File containing all patches
-patches=./patches.txt
+patch_file=./patches.txt
+
+# Get line numbers where included & excluded patches start from. 
+# We rely on the hardcoded messages to get the line numbers using grep
+excluded_start="$(grep -n -m1 'EXCLUDE PATCHES' "$patch_file" | cut -d':' -f1)"
+included_start="$(grep -n -m1 'INCLUDE PATCHES' "$patch_file" | cut -d':' -f1)"
+
+# Get everything but hashes from between the EXCLUDE PATCH & INCLUDE PATCH line
+excluded_patches="$(tail -n +$excluded_start $patch_file | head -n "$(( included_start - excluded_start ))" | grep '^[^#]')"
+
+# Get everything but hashes starting from INCLUDE PATCH line until EOF
+included_patches="$(tail -n +$included_start $patch_file | grep '^[^#]')"
+
+# Array for storing patches
+declare -a patches
 
 # Artifacts associative array aka dictionary
 declare -A artifacts
-
-# Array for storing excluded patches
-declare -a excluded_patches
 
 artifacts["revanced-cli.jar"]="revanced/revanced-cli revanced-cli .jar"
 artifacts["revanced-integrations.apk"]="revanced/revanced-integrations app-release-unsigned .apk"
@@ -23,6 +34,14 @@ get_artifact_download_url() {
     # shellcheck disable=SC2086
     result=$(curl -s $api_url | jq ".assets[] | select(.name | contains(\"$2\") and contains(\"$3\") and (contains(\".sig\") | not)) | .browser_download_url")
     echo "${result:1:-1}"
+}
+
+# Function for populating patches array, using a function here reduces redundancy & satisfies DRY principals
+populate_patches() {
+    # Note: <<< defines a 'here-string'. Meaning, it allows reading from variables just like from a file
+    while read -r patch; do
+        patches+=("$1 $patch")
+    done <<< "$2"
 }
 
 ## Main
@@ -50,7 +69,6 @@ done
 chmod +x apkeep
 
 if [ ! -f "vanced-microG.apk" ]; then
-
     # Vanced microG 0.2.24.220220
     VMG_VERSION="0.2.24.220220"
 
@@ -59,32 +77,25 @@ if [ ! -f "vanced-microG.apk" ]; then
     mv com.mgoogle.android.gms@$VMG_VERSION.apk vanced-microG.apk
 fi
 
+# If the variables are NOT empty, call populate_patches with proper arguments
+[[ ! -z "$excluded_patches" ]] && populate_patches "-e" "$excluded_patches"
+[[ ! -z "$included_patches" ]] && populate_patches "-i" "$included_patches"
+
 echo "************************************"
 echo "Building YouTube APK"
 echo "************************************"
 
 mkdir -p build
 
-# All patches will be included by default, you can exclude patches by writing their name in patches.txt
-
-# Check if there is anything in patches which does NOT start with a hash
-if grep -q '^[^#]' $patches; then
-    # If yes, output from grep command below is fed into read which assign it to patch & ultimately store it in our array of excluded_patches
-    # Note: 'read' reads until it hits a newline, grep preserves newline. Thus, we get all patches in one huge chunk & read reads them one by one until EOF
-    while read -r patch; do
-        excluded_patches+=("-e $patch")
-    done < <(grep '^[^#]' $patches)
-fi
-
 if [ -f "com.google.android.youtube.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
-        -e microg-support ${excluded_patches[@]} \
+        -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.youtube.apk -o build/revanced-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
-        ${excluded_patches[@]} \
+        ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
 else
@@ -97,12 +108,12 @@ echo "************************************"
 if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
-        -e microg-support ${excluded_patches[@]} \
+        -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar \
-        ${excluded_patches[@]} \
+        ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
 else

@@ -9,10 +9,11 @@ excluded_start="$(grep -n -m1 'EXCLUDE PATCHES' "$patch_file" | cut -d':' -f1)"
 included_start="$(grep -n -m1 'INCLUDE PATCHES' "$patch_file" | cut -d':' -f1)"
 
 # Get everything but hashes from between the EXCLUDE PATCH & INCLUDE PATCH line
-excluded_patches="$(tail -n +$excluded_start $patch_file | head -n "$(( included_start - excluded_start ))" | grep '^[^#]')"
+# Note: '^[^#[:blank:]]' ignores starting hashes and/or blank characters i.e, whitespace & tab excluding newline
+excluded_patches="$(tail -n +$excluded_start $patch_file | head -n "$(( included_start - excluded_start ))" | grep '^[^#[:blank:]]')"
 
 # Get everything but hashes starting from INCLUDE PATCH line until EOF
-included_patches="$(tail -n +$included_start $patch_file | grep '^[^#]')"
+included_patches="$(tail -n +$included_start $patch_file | grep '^[^#[:blank:]]')"
 
 # Array for storing patches
 declare -a patches

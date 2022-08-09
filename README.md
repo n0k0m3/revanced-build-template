@@ -2,7 +2,7 @@
 This repo template will allow you to build ReVanced using Github Actions. This will helps people who don't want to setup build environments on their machines.
 
 ## Notes
-- The script will download the version that's mentioned in version.json of Youtube and Youtube Music from ApkMirror, **NOT** latest official version on Google Play.
+- The script will download the version that's mentioned in versions.json of Youtube and Youtube Music from ApkMirror, **NOT** latest official version on Google Play.
 - Under **NO CIRCUMSTANCES** any APKs will be uploaded to this repository to avoid DMCA.
 
 ## How to setup

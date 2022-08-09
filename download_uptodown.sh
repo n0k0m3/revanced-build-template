@@ -80,8 +80,8 @@ dl_ytm() {
 		echo "downloaded from: [APKMirror - YouTube Music ${arch}]($dl_url)"
 	fi
 }
-## Main
 
+## Main
 
 for apk in "${!apks[@]}"; do
     if [ ! -f $apk ]; then

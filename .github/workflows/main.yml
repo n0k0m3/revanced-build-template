@@ -16,8 +16,8 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
-      - name: Download APKs from UptoDown
-        run: ./download_uptodown.sh
+      - name: Download APKs from APKMirror
+        run: ./download_apkmirror.sh
 
       - name: Build APKs
         run: ./build_revanced.sh

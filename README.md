@@ -2,8 +2,7 @@
 This repo template will allow you to build ReVanced using Github Actions. This will helps people who don't want to setup build environments on their machines.
 
 ## Notes
-- The script will download the **latest available version** of Youtube on UpToDown, **NOT** latest official version on Google Play.
-- While this template will build Revanced Music Non-root, it won't work as current patches doesn't include the Music Non-root (microG) patch (track [this PR](https://github.com/revanced/revanced-patches/pull/22) when it will get merged to `main` and released). Don't open an issue here. Just rebuild ReVanced when music microG patch is available on [ReVanced Patches](https://github.com/revanced/revanced-patches/releases).
+- The script will download the **selected compatible version**([see here](versions.json)) of Youtube on APKMirror, **NOT** latest official version on Google Play.
 - Under **NO CIRCUMSTANCES** any APKs will be uploaded to this repository to avoid DMCA.
 
 ## How to setup

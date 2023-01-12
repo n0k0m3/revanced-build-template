@@ -1,6 +1,6 @@
 # EXCLUDE PATCHES FROM BELOW. DO NOT REMOVE THIS LINE
-custom-branding-icon-red
-custom-branding-icon-blue
+custom-branding-icon-afn-red
+custom-branding-icon-afn-blue
 custom-branding-icon-revancify
 custom-branding-name
 custom-branding-music-revancify

@@ -2,7 +2,9 @@
 This repo template will allow you to build ReVanced Extended using Github Actions. This will helps people who don't want to setup build environments on their machines.
 
 ## Notes
-- The script will download the **selected compatible version**([see here](versions.json)) of Youtube on APKMirror, **NOT** latest official version on Google Play.
+- The script will download the **selected compatible version** ([see here](versions.json)) of Youtube on APKMirror, **NOT** latest official version on Google Play.
+- Check the supported versions of YouTube [here](https://github.com/inotia00/revanced-patches/tree/revanced-extended#-json-format).
+- ReVanced Extended patches work on **almost all version** of YouTube Music.
 - Under **NO CIRCUMSTANCES** any APKs will be uploaded to this repository to avoid DMCA.
 
 ## How to setup

@@ -1,4 +1,9 @@
 # EXCLUDE PATCHES FROM BELOW. DO NOT REMOVE THIS LINE
-hide-my-mix
+custom-branding-icon-red
+custom-branding-icon-blue
+custom-branding-icon-revancify
+custom-branding-name
+custom-branding-music-revancify
+custom-branding-music-red
 
 # INCLUDE PATCHES FROM BELOW. DO NOT REMOVE THIS LINE

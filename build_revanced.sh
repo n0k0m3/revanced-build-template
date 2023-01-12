@@ -21,9 +21,9 @@ declare -a patches
 # Artifacts associative array aka dictionary
 declare -A artifacts
 
-artifacts["revanced-cli.jar"]="revanced/revanced-cli revanced-cli .jar"
-artifacts["revanced-integrations.apk"]="revanced/revanced-integrations revanced-integrations .apk"
-artifacts["revanced-patches.jar"]="revanced/revanced-patches revanced-patches .jar"
+artifacts["revanced-cli.jar"]="inotia00/revanced-cli revanced-cli .jar"
+artifacts["revanced-integrations.apk"]="inotia00/revanced-integrations revanced-integrations .apk"
+artifacts["revanced-patches.jar"]="inotia00/revanced-patches revanced-patches .jar"
 artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 
 ## Functions
@@ -89,16 +89,36 @@ echo "************************************"
 mkdir -p build
 
 if [ -f "com.google.android.youtube.apk" ]; then
-    echo "Building Root APK"
+    echo "Building Root Amoled APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
-        -e microg-support ${patches[@]} \
+        -i theme -e materialyou -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.youtube.apk -o build/revanced-root.apk
-    echo "Building Non-root APK"
+        -a com.google.android.youtube.apk -o build/rvx-root-amoled.apk
+    echo "Building Root Material APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
+        -e theme -i materialyou -e microg-support ${patches[@]} \
+        $EXPERIMENTAL \
+        -a com.google.android.youtube.apk -o build/rvx-root-material.apk
+    echo "Building Root Material+Black APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
+        -i theme -i materialyou -e microg-support ${patches[@]} \
+        $EXPERIMENTAL \
+        -a com.google.android.youtube.apk -o build/rvx-root-hybrid.apk
+    echo "Building Non-root Amoled APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
-        ${patches[@]} \
+        -i theme -e materialyou ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
+        -a com.google.android.youtube.apk -o build/rvx-nonroot-amoled.apk
+    echo "Building Non-root Material APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+        -e theme -i materialyou ${patches[@]} \
+        $EXPERIMENTAL \
+        -a com.google.android.youtube.apk -o build/rvx-nonroot-material.apk
+    echo "Building Non-root Material+Black APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+        -i theme -i materialyou ${patches[@]} \
+        $EXPERIMENTAL \
+        -a com.google.android.youtube.apk -o build/rvx-nonroot-hybrid.apk
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
@@ -109,7 +129,7 @@ echo "************************************"
 if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
-        -e microg-support ${patches[@]} \
+        -e music-microg-support ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
     echo "Building Non-root APK"

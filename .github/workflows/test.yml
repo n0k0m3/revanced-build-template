@@ -24,7 +24,7 @@ jobs:
       - name: Test Build APKs
         run: |
           ./build_revanced.sh
-          for filename in build/revanced-root.apk build/revanced-nonroot.apk build/revanced-music-root.apk build/revanced-music-nonroot.apk; do
+          for filename in build/rvx-root-hybrid.apk build/rvx-nonroot-hybrid.apk build/rvx-root-material.apk build/rvx-nonroot-material.apk build/rvx-root-amoled.apk build/rvx-nonroot-amoled.apk build/rvx-music-root.apk build/rvx-music-nonroot.apk; do
             if [ -e "$filename" ]; then
               printf '"%s" exists\n' "$filename"
             else

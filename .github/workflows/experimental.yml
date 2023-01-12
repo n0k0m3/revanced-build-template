@@ -1,4 +1,4 @@
-name: ReVanced Experimental Build
+name: ReVanced Extended Experimental Build
 
 on:
   workflow_dispatch:

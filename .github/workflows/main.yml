@@ -1,4 +1,4 @@
-name: ReVanced Build
+name: ReVanced Extended Build
 
 on:
   workflow_dispatch:

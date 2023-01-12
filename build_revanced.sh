@@ -129,12 +129,12 @@ echo "Building YouTube Music APK"
 echo "************************************"
 if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
-    java -jar revanced-cli.jar -b revanced-patches.jar --mount \
+    java -jar revanced-cli.jar -m music-integrations.apk -b revanced-patches.jar --mount \
         -e music-microg-support ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/rvx-music-root.apk
     echo "Building Non-root APK"
-    java -jar revanced-cli.jar -b revanced-patches.jar \
+    java -jar revanced-cli.jar -m music-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.apps.youtube.music.apk -o build/rvx-music-nonroot.apk

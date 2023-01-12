@@ -22,7 +22,8 @@ declare -a patches
 declare -A artifacts
 
 artifacts["revanced-cli.jar"]="inotia00/revanced-cli revanced-cli .jar"
-artifacts["revanced-integrations.apk"]="inotia00/revanced-integrations revanced-integrations .apk"
+artifacts["revanced-integrations.apk"]="inotia00/revanced-integrations app-release-unsigned .apk"
+artifacts["music-integrations.apk"]="inotia00/revanced-integrations app-release-unsigned .apk"
 artifacts["revanced-patches.jar"]="inotia00/revanced-patches revanced-patches .jar"
 artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 

@@ -1,4 +1,4 @@
-name: ReVanced Test Build
+name: ReVanced Extended Test Build
 
 on:
   push:

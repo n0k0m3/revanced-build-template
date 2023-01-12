@@ -131,12 +131,12 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
         -e music-microg-support ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
+        -a com.google.android.apps.youtube.music.apk -o build/rvx-music-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
+        -a com.google.android.apps.youtube.music.apk -o build/rvx-music-nonroot.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi

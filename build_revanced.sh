@@ -82,30 +82,31 @@ fi
 [[ ! -z "$excluded_patches" ]] && populate_patches "-e" "$excluded_patches"
 [[ ! -z "$included_patches" ]] && populate_patches "-i" "$included_patches"
 
+mkdir -p build
+
 echo "************************************"
 echo "Building YouTube APK"
 echo "************************************"
-
-mkdir -p build
 
 if [ -f "com.google.android.youtube.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
         -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.youtube.apk -o build/revanced-root.apk
+        -a com.google.android.youtube.apk -o build/revanced-youtube-root.apk
     echo "Building Non-root APK"
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.youtube.apk -o build/revanced-nonroot.apk
+        -a com.google.android.youtube.apk -o build/revanced-youtube.apk
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
-echo ""
+
 echo "************************************"
 echo "Building YouTube Music APK"
 echo "************************************"
+
 if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
@@ -116,7 +117,35 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     java -jar revanced-cli.jar -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.apps.youtube.music.apk -o build/revanced-music-nonroot.apk
+        -a com.google.android.apps.youtube.music.apk -o build/revanced-music.apk
 else
     echo "Cannot find YouTube Music APK, skipping build"
+fi
+
+echo "************************************"
+echo "Building TikTok APK"
+echo "************************************"
+
+if [ -f "com.zhiliaoapp.musically.apk" ]; then
+    echo "Building Non-root APK"
+    java -Xmx8192m -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+        ${patches[@]} \
+        $EXPERIMENTAL \
+        -a com.zhiliaoapp.musically.apk -o build/revanced-tiktok.apk
+else
+    echo "Cannot find TikTok APK, skipping build"
+fi
+
+echo "************************************"
+echo "Building Twitch APK"
+echo "************************************"
+
+if [ -f "tv.twitch.android.app.apk" ]; then
+    echo "Building Non-root APK"
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
+        ${patches[@]} \
+        $EXPERIMENTAL \
+        -a tv.twitch.android.app.apk -o build/revanced-twitch.apk
+else
+    echo "Cannot find Twitch APK, skipping build"
 fi

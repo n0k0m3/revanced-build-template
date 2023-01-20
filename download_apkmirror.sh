@@ -4,6 +4,8 @@ declare -A apks
 
 apks["com.google.android.youtube.apk"]=dl_yt
 apks["com.google.android.apps.youtube.music.apk"]=dl_ytm
+apks["com.zhiliaoapp.musically.apk"]=dl_tt
+apks["tv.twitch.android.app.apk"]=dl_twi
 
 ## Functions
 
@@ -78,6 +80,42 @@ dl_ytm() {
 			"$base_apk")
 		echo "\nYouTube Music (${arch}) version: ${last_ver}"
 		echo "downloaded from: [APKMirror - YouTube Music ${arch}]($dl_url)"
+	fi
+}
+
+# Downloading tiktok
+dl_tt() {
+	echo "Downloading TikTok"
+	local last_ver
+	last_ver="$version"
+	last_ver="${last_ver:-$(get_apk_vers "https://www.apkmirror.com/uploads/?appcategory=tik-tok-including-musical-ly" | get_largest_ver)}"
+
+	echo "Choosing version '${last_ver}'"
+	local base_apk="com.zhiliaoapp.musically.apk"
+	if [ ! -f "$base_apk" ]; then
+		declare -r dl_url=$(dl_apk "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly/tik-tok-including-musical-ly-${last_ver//./-}-release/" \
+			"APK</span>[^@]*@\([^#]*\)" \
+			"$base_apk")
+		echo "TikTok version: ${last_ver}"
+		echo "downloaded from: [APKMirror - TikTok]($dl_url)"
+	fi
+}
+
+# Downloading twitch
+dl_twi() {
+	echo "Downloading Twitch"
+	local last_ver
+	last_ver="$version"
+	last_ver="${last_ver:-$(get_apk_vers "https://www.apkmirror.com/uploads/?appcategory=twitch" | get_largest_ver)}"
+
+	echo "Choosing version '${last_ver}'"
+	local base_apk="tv.twitch.android.app.apk"
+	if [ ! -f "$base_apk" ]; then
+		declare -r dl_url=$(dl_apk "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch/twitch-${last_ver//./-}-release/" \
+			"APK</span>[^@]*@\([^#]*\)" \
+			"$base_apk")
+		echo "Twitch version: ${last_ver}"
+		echo "downloaded from: [APKMirror - Twitch]($dl_url)"
 	fi
 }
 

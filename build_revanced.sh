@@ -179,9 +179,41 @@ else
 fi
 }
 
-build_youtube_root
-build_youtube_nonroot
-build_ytmusic_root
-build_ytmusic_nonroot
-build_tiktok_nonroot
-build_twitch_nonroot
+source build.targets
+
+if [ "$YOUTUBE_ROOT" = "true" ]; then
+	build_youtube_root
+else
+	printf "\nSkipping YouTube ReVanced (root)"
+fi
+
+if [ "$YOUTUBE_NONROOT" = "true" ]; then
+	build_youtube_nonroot
+else
+	printf "\nSkipping YouTube ReVanced (nonroot)"
+fi
+
+if [ "$YTMUSIC_ROOT" = "true" ]; then
+	build_ytmusic_root
+else
+	printf "\nSkipping YouTube Music ReVanced (root)"
+fi
+
+if [ "$YTMUSIC_NONROOT" = "true" ]; then
+	build_ytmusic_nonroot
+else
+	printf "\nSkipping YouTube Music ReVanced (nonroot)"
+fi
+
+if [ "$TIKTOK_NONROOT" = "true" ]; then
+	build_tiktok_nonroot
+else
+	printf "\nSkipping TikTok (nonroot)"
+fi
+
+if [ "$TWITCH_NONROOT" = "true" ]; then
+	build_twitch_nonroot
+else
+	printf "\nSkipping Twitch (nonroot)"
+fi
+

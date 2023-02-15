@@ -12,7 +12,11 @@ This repo template will allow you to build ReVanced using Github Actions. This w
 ## Customize your build
 If you wish to continue with the default settings, you may skip this step.
 
-By default this will build ReVanced with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
+All supported ReVanced apps are built by default by the script. If you wish to modify this behaviour and build only the apps that you specify, edit the 'build.targets' file with your preferred text editor. For the apps that you wish to be built, set the value of variable associated with the app to "true". Any variable with a value that is not "true" will be skip the associated app from being built.
+
+For example, if you wish to skip TikTok ReVanced from being built, change the value of TIKTOK_NONROOT to "false".
+
+By default this will build ReVanced apps with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
 
 ## How to build
 1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))

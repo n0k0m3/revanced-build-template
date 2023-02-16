@@ -44,4 +44,4 @@ enable-wide-searchbar
 
 ## List of Available Patches
 
-Refer to Official ReVanced [list of available patches](https://github.com/revanced/revanced-patches#list-of-available-patches).
+Refer to Official ReVanced [list of available patches](https://github.com/revanced/revanced-patches#-patches).

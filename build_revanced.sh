@@ -94,7 +94,7 @@ if [ -f "com.google.android.youtube.apk" ]; then
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
         -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.youtube.apk -o build/revanced-youtube-root.apk
+        -a com.google.android.youtube.apk -o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*')-root.apk"
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
@@ -109,7 +109,7 @@ if [ -f "com.google.android.youtube.apk" ]; then
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.youtube.apk -o build/revanced-youtube.apk
+        -a com.google.android.youtube.apk -o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*').apk"
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
@@ -125,7 +125,7 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     java -jar revanced-cli.jar -b revanced-patches.jar --mount \
         -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.apps.youtube.music.apk -o build/revanced-music-root.apk
+        -a com.google.android.apps.youtube.music.apk -o "build/revanced-music-$(cat versions.json | grep -oP '(?<="com.google.android.apps.youtube.music.apk": ")[^"]*')-root.apk"
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi
@@ -141,7 +141,7 @@ if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     java -jar revanced-cli.jar -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.google.android.apps.youtube.music.apk -o build/revanced-music.apk
+        -a com.google.android.apps.youtube.music.apk -o "build/revanced-music-$(cat versions.json | grep -oP '(?<="com.google.android.apps.youtube.music.apk": ")[^"]*').apk"
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi
@@ -158,7 +158,7 @@ if [ -f "com.zhiliaoapp.musically.apk" ]; then
     java -Xmx8192m -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a com.zhiliaoapp.musically.apk -o build/revanced-tiktok.apk
+        -a com.zhiliaoapp.musically.apk -o "build/revanced-tiktok-$(cat versions.json | grep -oP '(?<="com.zhiliaoapp.musically.apk": ")[^"]*').apk"
 else
     echo "Cannot find TikTok APK, skipping build"
 fi
@@ -174,7 +174,7 @@ if [ -f "tv.twitch.android.app.apk" ]; then
     java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        -a tv.twitch.android.app.apk -o build/revanced-twitch.apk
+        -a tv.twitch.android.app.apk -o "build/revanced-twitch-$(cat versions.json | grep -oP '(?<="tv.twitch.android.app.apk": ")[^"]*').apk"
 else
     echo "Cannot find Twitch APK, skipping build"
 fi

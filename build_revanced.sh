@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Import build configuration
+source build.targets
+
 # File containing all patches
 patch_file=./patches.txt
 
@@ -24,7 +27,11 @@ declare -A artifacts
 artifacts["revanced-cli.jar"]="revanced/revanced-cli revanced-cli .jar"
 artifacts["revanced-integrations.apk"]="revanced/revanced-integrations revanced-integrations .apk"
 artifacts["vanced-microG.apk"]="inotia00/VancedMicroG microg .apk"
+if [ "$EXTENDED_SUPPORT" = "true" ]; then
+artifacts["revanced-patches.jar"]="inotia00/revanced-patches revanced-patches .jar"
+else
 artifacts["revanced-patches.jar"]="revanced/revanced-patches revanced-patches .jar"
+fi
 artifacts["apkeep"]="EFForg/apkeep apkeep-x86_64-unknown-linux-gnu"
 
 ## Functions
@@ -179,8 +186,6 @@ else
     echo "Cannot find Twitch APK, skipping build"
 fi
 }
-
-source build.targets
 
 if [ "$YOUTUBE_ROOT" = "true" ]; then
 	build_youtube_root

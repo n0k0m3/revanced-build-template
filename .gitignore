@@ -1,9 +1,4 @@
-*.apk
-*.jar
-apkeep
-*.dex
-revanced-cache/
+# Folders
+.venv/
 build/
-.editorconfig
-patches.txt
-.vscode/
+downloaded/

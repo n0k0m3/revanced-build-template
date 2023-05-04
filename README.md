@@ -1,4 +1,7 @@
 # Revanced Auto Build
+[![Auto release Revanced](https://github.com/hardingadonis/revanced-auto-build/actions/workflows/auto-release.yml/badge.svg)](https://github.com/hardingadonis/revanced-auto-build/actions/workflows/auto-release.yml)
+[![Repository size](https://img.shields.io/github/repo-size/hardingadonis/revanced-auto-build)](https://github.com/hardingadonis/revanced-auto-build) 
+
 > Auto build *Revanced (non-root)* for individual with GitHub Actions 😎😎
 
 ## Requirements

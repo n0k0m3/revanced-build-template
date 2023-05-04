@@ -1,0 +1,46 @@
+name: Auto release Revanced
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  auto-release-revanced:
+    name: Auto release Revanced
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Setup JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: zulu
+        java-version: 17
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - run: pip install -r requirements.txt
+
+    - name: Auto build Revanced
+      run: python auto-build.py
+    
+    - name: Set current date as env variable
+      run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+    
+    - name: Auto release Revanced
+      uses: softprops/action-gh-release@v0.1.15
+      with:
+        prerelease: false
+        name: ${{ env.date_now }}
+        tag_name: ${{ env.date_now }}
+        generate_release_notes: true
+        files: |
+          build/*.apk
+          revanced-tools/microg.apk

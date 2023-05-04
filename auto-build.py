@@ -1,7 +1,9 @@
 import urllib.request
 import requests
+import json
 import yaml
 import os
+import re
 
 from bs4 import BeautifulSoup
 
@@ -79,6 +81,48 @@ def download_package(package, folder_to_save):
     
     print('- Done', package.package_name, 'version', package.version)
 
+# Download Revanced tools
+def download_revanced_tools():
+    # Create `revanced-tools` folder
+    if not os.path.exists('revanced-tools'):
+        os.makedirs('revanced-tools')
+        print('===== Create \'revanced-tools\' folder =====')
+    
+    # Load data from json file
+    with open('tools.json', 'r') as f:
+        tools_data = json.load(f)
+    
+    print('===== Download to \'revanced-tools\' folder =====')
+
+    for tool in tools_data:
+        repo = tool['repo']
+        name = tool['name']
+        extension = tool['extension']
+
+        print('- Downloading', name + extension)
+
+        url_api = 'https://api.github.com/repos/{repo}/releases/latest'.replace('{repo}', repo)
+
+        response = requests.get(url_api)
+        api_data = json.loads(response.content)
+
+        for asset in api_data['assets']:
+            name_asset = asset['name']
+            pattern = name + '.*\\' + extension
+            
+            if not os.path.exists('revanced-tools' + '/' + name + extension):
+                if re.match(pattern, name_asset):
+                    browser_download_url = asset['browser_download_url']
+
+                    print('\t- URL:', browser_download_url)
+                    print('\t- Downloading', name_asset, 'to \'revanced-tools\' folder...')
+
+                    urllib.request.urlretrieve(browser_download_url, os.path.join('revanced-tools', name + extension))
+            else:
+                print('\t- Notification:', name + extension, 'already exists')
+        
+        print('- Done', name + extension)
+
 # Main
 if __name__ == "__main__":
     # Load data from yaml file
@@ -92,4 +136,7 @@ if __name__ == "__main__":
     # Download each package to `download` folder
     print('===== Download to \'downloaded\' folder =====')
     for package in packages:
-        download_package(package, 'downloaded') 
+        download_package(package, 'downloaded')
+    
+    # Download Revanced tools
+    download_revanced_tools()

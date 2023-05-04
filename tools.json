@@ -1,0 +1,25 @@
+[
+    {
+        "repo": "revanced/revanced-cli",
+        "name": "revanced-cli",
+        "extension": ".jar"
+    },
+
+    {
+        "repo": "revanced/revanced-patches",
+        "name": "revanced-patches",
+        "extension": ".jar"
+    },
+
+    {
+        "repo": "revanced/revanced-integrations",
+        "name": "revanced-integrations",
+        "extension": ".apk"
+    },
+
+    {
+        "repo": "TeamVanced/VancedMicroG",
+        "name": "microg",
+        "extension": ".apk"
+    }
+]

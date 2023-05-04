@@ -12,6 +12,7 @@ class Package:
         self.version = version
         self.uptodown = uptodown
         self.exclude_options = exclude_options or []
+        self.name_file = self.package_name + '-' + self.version.replace('.', '-') + '.apk'
 
 # Load data from yaml file
 def load_data_from_yaml_file(name_yaml_file):
@@ -62,18 +63,16 @@ def download_package(package, folder_to_save):
     version = soup.find('div', {'class': 'version'}).text
 
     if version == package.version:
-        name_file = package.package_name + '-' + package.version.replace('.', '-') + '.apk'
-
-        if not os.path.exists(folder_to_save + '/' + name_file):
+        if not os.path.exists(folder_to_save + '/' + package.name_file):
             # Get URL of APK file
             url = soup.find('button', {'id': 'detail-download-button'})['data-url']
 
             print('\t- URL:', url)
             print('\t- Downloading', package.package_name, 'to\'', folder_to_save, '\' folder...')
 
-            urllib.request.urlretrieve(url, os.path.join(folder_to_save, name_file))
+            urllib.request.urlretrieve(url, os.path.join(folder_to_save, package.name_file))
         else:
-            print('\t- Notification:', name_file, 'already exists')
+            print('\t- Notification:', package.name_file, 'already exists')
     else:
         print('- Error:', package.version, 'not same with', version)
         return

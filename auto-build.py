@@ -158,6 +158,10 @@ if __name__ == "__main__":
                                 '-m', 'revanced-tools/revanced-integrations.apk'
                     ]
         
+        if package.exclude_options:
+            command.append('-e')
+            command.append(package.exclude_options)
+        
         print('\t- Building', package.name_file, 'to \'build\' folder...')
 
         subprocess.run(command)

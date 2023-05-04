@@ -9,3 +9,9 @@ com.zhiliaoapp.musically:
 com.facebook.orca:
   - version: 406.0.0.13.115
   - uptodown: https://facebook-messenger.en.uptodown.com/android/download
+
+com.twitter.android:
+  - version: 9.86.0-release.0
+  - uptodown: https://twitter.en.uptodown.com/android/download
+  - exclude_options:
+    - hide-views-stats

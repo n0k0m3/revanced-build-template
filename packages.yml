@@ -1,17 +1,3 @@
 com.google.android.youtube:
   - version: 18.16.37
   - uptodown: https://youtube.en.uptodown.com/android/download/101361605
-
-com.zhiliaoapp.musically:
-  - version: 27.8.3
-  - uptodown: https://tiktok.en.uptodown.com/android/download/88049050
-
-com.facebook.orca:
-  - version: 406.0.0.13.115
-  - uptodown: https://facebook-messenger.en.uptodown.com/android/download
-
-com.twitter.android:
-  - version: 9.86.0-release.0
-  - uptodown: https://twitter.en.uptodown.com/android/download
-  - exclude_options:
-    - hide-views-stats

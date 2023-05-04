@@ -9,7 +9,3 @@ com.zhiliaoapp.musically:
 com.facebook.orca:
   - version: 406.0.0.13.115
   - uptodown: https://facebook-messenger.en.uptodown.com/android/download
-
-com.spotify.music:
-  - version: 8.8.28.409
-  - uptodown: https://spotify.en.uptodown.com/android/download

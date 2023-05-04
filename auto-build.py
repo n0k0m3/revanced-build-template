@@ -1,4 +1,5 @@
 import urllib.request
+import subprocess
 import requests
 import json
 import yaml
@@ -47,17 +48,17 @@ def load_data_from_yaml_file(name_yaml_file):
         
         packages.append(Package(package_name, version, uptodown, exclude_options))
 
-        print('- Loaded:')
-        print('\t- package_name:', package_name)
-        print('\t- version:', version)
-        print('\t- uptodown:', uptodown)
-        print('\t- exclude_options:', exclude_options)
+        print('\t- Loaded:')
+        print('\t\t- package_name:', package_name)
+        print('\t\t- version:', version)
+        print('\t\t- uptodown:', uptodown)
+        print('\t\t- exclude_options:', exclude_options)
     
     return packages
 
 # Download package
 def download_package(package, folder_to_save):
-    print('- Downloading', package.package_name, 'version', package.version)
+    print('\t- Downloading', package.package_name, 'version', package.version)
 
     response = requests.get(package.uptodown)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -69,17 +70,17 @@ def download_package(package, folder_to_save):
             # Get URL of APK file
             url = soup.find('button', {'id': 'detail-download-button'})['data-url']
 
-            print('\t- URL:', url)
-            print('\t- Downloading', package.package_name, 'to\'', folder_to_save, '\' folder...')
+            print('\t\t- URL:', url)
+            print('\t\t- Downloading', package.package_name, 'to\'', folder_to_save, '\' folder...')
 
             urllib.request.urlretrieve(url, os.path.join(folder_to_save, package.name_file))
         else:
-            print('\t- Notification:', package.name_file, 'already exists')
+            print('\t\t- Notification:', package.name_file, 'already exists')
     else:
-        print('- Error:', package.version, 'not same with', version)
+        print('\t- Error:', package.version, 'not same with', version)
         return
     
-    print('- Done', package.package_name, 'version', package.version)
+    print('\t- Done', package.package_name, 'version', package.version)
 
 # Download Revanced tools
 def download_revanced_tools():
@@ -99,7 +100,7 @@ def download_revanced_tools():
         name = tool['name']
         extension = tool['extension']
 
-        print('- Downloading', name + extension)
+        print('\t- Downloading', name + extension)
 
         url_api = 'https://api.github.com/repos/{repo}/releases/latest'.replace('{repo}', repo)
 
@@ -114,14 +115,14 @@ def download_revanced_tools():
                 if re.match(pattern, name_asset):
                     browser_download_url = asset['browser_download_url']
 
-                    print('\t- URL:', browser_download_url)
-                    print('\t- Downloading', name_asset, 'to \'revanced-tools\' folder...')
+                    print('\t\t- URL:', browser_download_url)
+                    print('\t\t- Downloading', name_asset, 'to \'revanced-tools\' folder...')
 
                     urllib.request.urlretrieve(browser_download_url, os.path.join('revanced-tools', name + extension))
             else:
-                print('\t- Notification:', name + extension, 'already exists')
+                print('\t\t- Notification:', name + extension, 'already exists')
         
-        print('- Done', name + extension)
+        print('\t- Done', name + extension)
 
 # Main
 if __name__ == "__main__":
@@ -140,3 +141,25 @@ if __name__ == "__main__":
     
     # Download Revanced tools
     download_revanced_tools()
+
+    # Create `build` folder
+    if not os.path.exists('build'):
+        os.makedirs('build')
+        print('===== Create \'build\' folder =====')
+
+    # Build APK files
+    print('===== Build to \'build\' folder =====')
+
+    for package in packages:
+        command =   ['java',    '-jar', 'revanced-tools/revanced-cli.jar',
+                                '-a', 'downloaded/' + package.name_file,
+                                '-o', 'build/' + package.name_file,
+                                '-b', 'revanced-tools/revanced-patches.jar',
+                                '-m', 'revanced-tools/revanced-integrations.apk'
+                    ]
+        
+        print('\t- Building', package.name_file, 'to \'build\' folder...')
+
+        subprocess.run(command)
+
+        print('\t- Done', package.name_file)

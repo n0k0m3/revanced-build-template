@@ -2,4 +2,8 @@
 .venv/
 build/
 downloaded/
+revanced-cache/
 revanced-tools/
+
+# Files
+options.json

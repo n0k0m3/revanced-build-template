@@ -214,15 +214,15 @@ else
 	printf "\nSkipping YouTube Music ReVanced (nonroot)"
 fi
 
-if [ "$TIKTOK_NONROOT" = "true" ]; then
+if [ "$TIKTOK_NONROOT" = "true" ] && [ "$EXTENDED_SUPPORT" != "true" ]; then
 	build_tiktok_nonroot
 else
-	printf "\nSkipping TikTok (nonroot)"
+	printf "\nSkipping TikTok (nonroot) due to disabled config or ReVanced Extended support being enabled in build.targets"
 fi
 
-if [ "$TWITCH_NONROOT" = "true" ]; then
+if [ "$TWITCH_NONROOT" = "true" ] && [ "$EXTENDED_SUPPORT" != "true" ]; then
 	build_twitch_nonroot
 else
-	printf "\nSkipping Twitch (nonroot)"
+	printf "\nSkipping Twitch (nonroot) due to disabled config or ReVanced Extended support being enabled in build.targets"
 fi
 

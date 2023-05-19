@@ -6,6 +6,9 @@ By default the script will build ReVanced with ALL default* patches. Edit `patch
 
 *Default: All patches except those which have to be ***included*** explicitly, i.e, using the `-i` flag while manually using the ReVanced CLI
 
+## Support for ReVanced Extended Patches
+The script also supports using patches from Inotia00's ReVanced Extended project. To enable support for this, set "EXTENDED_SUPPORT" to "true" in build.config.
+
 ## !IMPORTANT!
 1. Each patch name MUST start from a NEWLINE AND there should be only ONE patch PER LINE
 2. DO NOT add any other type of symbol or character, it will break the script! You have been warned!
@@ -44,4 +47,6 @@ enable-wide-searchbar
 
 ## List of Available Patches
 
-Refer to Official ReVanced [list of available patches](https://github.com/revanced/revanced-patches#-patches).
+Refer to the Official ReVanced [list of available patches](https://github.com/revanced/revanced-patches#-patches).
+
+Refer to the ReVanced Extended [list of available patches](https://github.com/inotia00/revanced-patches/tree/revanced-extended#-patches).

@@ -18,6 +18,8 @@ For example, if you wish to skip TikTok ReVanced from being built, change the va
 
 By default this will build ReVanced apps with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
 
+The script also supports using patches from Inotia00's ReVanced Extended project. To enable support for this, set "EXTENDED_SUPPORT" to "true" in build.config. Bear in mind that this will also disable builds for apps other than YouTube and YouTube Music regardless of what value you've assigned. This is due to the fact that ReVanced Extended does not (yet) support apps other than the ones specified above.
+
 ## How to build
 1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))
 2. Run the `build` workflow (try to use `experimental_build` if the logs show not all patches applied correctly while revanced is not yet released)

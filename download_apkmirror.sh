@@ -121,10 +121,16 @@ dl_twi() {
 
 ## Main
 
+source build.targets
+
 for apk in "${!apks[@]}"; do
     if [ ! -f $apk ]; then
         echo "Downloading $apk"
+	if [ "$EXTENDED_SUPPORT" = "true" ]; then
+        version=$(jq -r ".\"$apk\"" <versions_extended.json)
+        else
         version=$(jq -r ".\"$apk\"" <versions.json)
+        fi
         ${apks[$apk]}
     fi
 done

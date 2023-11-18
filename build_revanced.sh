@@ -122,7 +122,7 @@ if [ -f "com.google.android.youtube.apk" ]; then
         ${patches[@]} \
         $EXPERIMENTAL \
 	-o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*').apk" \
- 	com.google.android.youtube.apk \
+ 	com.google.android.youtube.apk
 else
     echo "Cannot find YouTube APK, skipping build"
 fi

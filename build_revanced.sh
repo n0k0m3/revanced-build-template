@@ -117,7 +117,6 @@ echo "************************************"
 
 if [ -f "com.google.android.youtube.apk" ]; then
     java -jar revanced-cli.jar \
-    	-m revanced-integrations.apk \
 	--patch-bundle revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \

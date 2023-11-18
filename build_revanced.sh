@@ -117,11 +117,11 @@ echo "************************************"
 
 if [ -f "com.google.android.youtube.apk" ]; then
     java -jar revanced-cli.jar patch \
+	com.google.android.youtube.apk \
     	-m revanced-integrations.apk \
     	-b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        --alias com.google.android.youtube.apk \
 	-o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*').apk" \
 else
     echo "Cannot find YouTube APK, skipping build"

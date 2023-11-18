@@ -116,8 +116,9 @@ echo "Building YouTube Non-root APK"
 echo "************************************"
 
 if [ -f "com.google.android.youtube.apk" ]; then
-    java -jar revanced-cli.jar -m revanced-integrations.apk \
-        --patch-bundle revanced-patches.jar \
+    java -jar revanced-cli.jar \
+    	-m revanced-integrations.apk \
+	--patch-bundle revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
         -a com.google.android.youtube.apk -o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*').apk"

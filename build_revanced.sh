@@ -101,13 +101,10 @@ echo "Building YouTube Root APK"
 echo "************************************"
 
 if [ -f "com.google.android.youtube.apk" ]; then
-    java -jar revanced-cli.jar patch \
-    	--merge revanced-integrations.apk \
-	--patch-bundle revanced-patches.jar \
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar --mount \
         -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
-        --out "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*')-root.apk" \
-	com.google.android.youtube.apk
+        -a com.google.android.youtube.apk -o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*')-root.apk"
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
@@ -121,11 +118,11 @@ echo "************************************"
 if [ -f "com.google.android.youtube.apk" ]; then
     java -jar revanced-cli.jar patch \
     	-m revanced-integrations.apk \
-	-b revanced-patches.jar \
+    	-b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
- 	-o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*').apk" \
-  	com.google.android.youtube.apk
+        -a com.google.android.youtube.apk \
+	-o "build/revanced-youtube-$(cat versions.json | grep -oP '(?<="com.google.android.youtube.apk": ")[^"]*').apk" \
 else
     echo "Cannot find YouTube APK, skipping build"
 fi
@@ -138,13 +135,10 @@ echo "************************************"
 
 if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Root APK"
-    java -jar revanced-cli.jar patch \
-    	--merge revanced-integrations.apk \
-	--patch-bundle revanced-patches.jar \
-       # -e microg-support ${patches[@]} \
+    java -jar revanced-cli.jar -b revanced-patches.jar --mount \
+        -e microg-support ${patches[@]} \
         $EXPERIMENTAL \
-	--out "build/revanced-music-$(cat versions.json | grep -oP '(?<="com.google.android.apps.youtube.music.apk": ")[^"]*')-root.apk" \
-	com.google.android.apps.youtube.music.apk
+        -a com.google.android.apps.youtube.music.apk -o "build/revanced-music-$(cat versions.json | grep -oP '(?<="com.google.android.apps.youtube.music.apk": ")[^"]*')-root.apk"
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi
@@ -157,13 +151,10 @@ echo "************************************"
 
 if [ -f "com.google.android.apps.youtube.music.apk" ]; then
     echo "Building Non-root APK"
-    java -jar revanced-cli.jar patch \
-    	--merge revanced-integrations.apk \
-	--patch-bundle revanced-patches.jar \
+    java -jar revanced-cli.jar -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        --out "build/revanced-music-$(cat versions.json | grep -oP '(?<="com.google.android.apps.youtube.music.apk": ")[^"]*').apk" \
-	com.google.android.apps.youtube.music.apk
+        -a com.google.android.apps.youtube.music.apk -o "build/revanced-music-$(cat versions.json | grep -oP '(?<="com.google.android.apps.youtube.music.apk": ")[^"]*').apk"
 else
     echo "Cannot find YouTube Music APK, skipping build"
 fi
@@ -177,13 +168,10 @@ echo "************************************"
 
 if [ -f "com.zhiliaoapp.musically.apk" ]; then
     echo "Building Non-root APK"
-    java -Xmx8192m -jar revanced-cli.jar patch \
-    	--merge revanced-integrations.apk \
-	--patch-bundle revanced-patches.jar \
+    java -Xmx8192m -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        --out "build/revanced-tiktok-$(cat versions.json | grep -oP '(?<="com.zhiliaoapp.musically.apk": ")[^"]*').apk" \
-	com.zhiliaoapp.musically.apk
+        -a com.zhiliaoapp.musically.apk -o "build/revanced-tiktok-$(cat versions.json | grep -oP '(?<="com.zhiliaoapp.musically.apk": ")[^"]*').apk"
 else
     echo "Cannot find TikTok APK, skipping build"
 fi
@@ -196,13 +184,10 @@ echo "************************************"
 
 if [ -f "tv.twitch.android.app.apk" ]; then
     echo "Building Non-root APK"
-    java -jar revanced-cli.jar patch \
-        --merge revanced-integrations.apk \
-	--patch-bundle revanced-patches.jar \
+    java -jar revanced-cli.jar -m revanced-integrations.apk -b revanced-patches.jar \
         ${patches[@]} \
         $EXPERIMENTAL \
-        --out "build/revanced-twitch-$(cat versions.json | grep -oP '(?<="tv.twitch.android.app.apk": ")[^"]*').apk" \
-	tv.twitch.android.app.apk 
+        -a tv.twitch.android.app.apk -o "build/revanced-twitch-$(cat versions.json | grep -oP '(?<="tv.twitch.android.app.apk": ")[^"]*').apk"
 else
     echo "Cannot find Twitch APK, skipping build"
 fi

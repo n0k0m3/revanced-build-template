@@ -23,7 +23,7 @@ jobs:
         run: ./download_apkmirror.sh
 
       - name: Build APKs
-        run: ./build_revanced.sh
+        run: ./build_revanced.sh clean
 
       - name: Set current date as env variable
         run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
